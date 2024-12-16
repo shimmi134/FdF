@@ -7,9 +7,9 @@
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
-	if (keydata.key == MLX_KEY_J && keydata.action == MLX_PRESS)
-		puts("Hello ");
-
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		puts("ESC!");
+	
 	if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
 		puts("World");
 
@@ -37,8 +37,7 @@ int32_t	main(void)
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 		return (EXIT_FAILURE);
 
-	mlx_key_hook(mlx, &my_keyhook, NULL);
-	mlx_scroll_hook(mlx, &my_scrollhook, NULL);
+	mlx_key_hook(mlx, &my_keyhook, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
