@@ -8,7 +8,7 @@
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		puts("ESC!");
+		mlx_close_window(param);
 	
 	if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
 		puts("World");
