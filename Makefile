@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 NAME = 	fdf
-LIB = libmlx42.a
-OTHER = -Iinclude -ldl -lglfw -pthread -lm
+LIB = libmlx42.a -ldl -lglfw -pthread -lm
+OTHER = -Wall -Werror -Wunreachable-code -Ofast
 INCLUDE = MLX42/MLX42.h
 RM = rm -f
 CC = cc
@@ -22,4 +22,4 @@ FLAGS = -Wall -Werror
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(FLAGS) $(SRC) $(LIB) $(OTHER) -g -fsanitize=address
+	$(CC) $(FLAGS) $(SRC) $(LIB) $(OTHER) -g -fsanitize=address -D DEBUG=1

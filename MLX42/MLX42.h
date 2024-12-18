@@ -459,7 +459,7 @@ typedef void (*mlx_resizefunc)(int32_t width, int32_t height, void* param);
  * 
  * @param[in] param Additional parameter to pass on to the function.
  */
-typedef void (*mlx_closefunc)(void* param);
+typedef void (*mlx_closefunc)(void* param); 
 
 /** 
  * Typedef for a window cursor object, these eventually expand to
