@@ -5,21 +5,33 @@
 #                                                     +:+ +:+         +:+      #
 #    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/13 12:51:23 by shimi-be         ###   ########.fr        #
+#    Created: 2025/01/13 12:27:08 by shimi-be          #+#    #+#              #
+#    Updated: 2025/01/13 12:28:45 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 	fdf
-LIB = libmlx42.a -ldl -lglfw -pthread -lm
-OTHER = -Wall -Werror -Wunreachable-code -Ofast
-INCLUDE = MLX42/MLX42.h
-RM = rm -f
-CC = cc
-SRC = main2.c
-FLAGS = -Wall -Werror
+NAME = gnl.a
+INCLUDE = get_next_line.h
+LIB = ar rcs
+SRC = get_next_line.c get_next_line_utils.c
+FLAGS = -Wall -Werror -Wextra
 
-all: $(NAME)
+OBJ = $(SRC:.c=.o)
 
-$(NAME):
-	$(CC) $(FLAGS) $(SRC) $(LIB) $(OTHER) -g -D DEBUG=1 -fsanitize=address
+all : $(NAME)
+
+$(NAME): $(OBJ) $(INCLUDE)
+	$(LIB) $(NAME) $(OBJ)
+
+%.o: %.c $(INCLUDE) Makefile
+	cc $(FLAGS) -c $< -o $@
+
+clean:
+	rm -rf $(OBJ) $(OBJ_BONUS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY : all clean fclean re bonus

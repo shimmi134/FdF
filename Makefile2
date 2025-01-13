@@ -6,20 +6,26 @@
 #    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/13 12:51:23 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/01/13 12:44:28 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 	fdf
-LIB = libmlx42.a -ldl -lglfw -pthread -lm
+LIB = libmlx42.a libft-42Barcelona/libft.a get_next_line/gnl.a -ldl -lglfw -pthread -lm
 OTHER = -Wall -Werror -Wunreachable-code -Ofast
 INCLUDE = MLX42/MLX42.h
 RM = rm -f
 CC = cc
-SRC = main2.c
+SRC = fdf.c
 FLAGS = -Wall -Werror
 
 all: $(NAME)
 
-$(NAME):
-	$(CC) $(FLAGS) $(SRC) $(LIB) $(OTHER) -g -D DEBUG=1 -fsanitize=address
+$(NAME): makelibs 
+	$(CC) $(FLAGS) $(SRC) $(LIB) -o $(NAME)
+
+
+makelibs: 
+	$(MAKE) 
+	$(MAKE)
+	$(MAKE)
