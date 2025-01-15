@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/15 16:02:20 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:27:24 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,12 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-/*
-//Free the line and all the contents of the matrix if malloc fails ttbrosk
-void ralloc(char*** matriu, int height, char *line)
-{
-	int i;
-	char **splitline;
-	char **tempmat;
-
-	i = 0;
-	tempmat = *matriu;
-	*matriu = (char **) malloc (height*sizeof(char*));
-	if (!matriu)
-		return (NULL);
-	while (i < height-2)
-	{
-		*matriu[i] = tempmat[i];
-		i++;
-	}
-	*matriu[i] = line;
-	free(tempmat);
-}
 
 int corr_inp(char *input)
 {
 	return (1);
 }
-*/
+
 int getlen(char **line)
 {
 	int i;
@@ -68,10 +47,10 @@ int **ft_lineatoi(int **matrix, char **line, int height)
 		}
 		free(matrix[j]);
 	}
+	free(matrix);
 	newmatrix[height-1] = (int*)malloc(len*sizeof(int));
 	for (int i = 0; i < len; i++)
 		newmatrix[height-1][i] = ft_atoi(line[i]);
-	free(matrix);
 	return (newmatrix);
 }
 
@@ -80,6 +59,7 @@ int **get_values(int fd)
 	char *line;
 	int **atoiline;
 	int **temp;
+	char **aa;
 	char **splitline;
 	int height;
 
@@ -87,7 +67,9 @@ int **get_values(int fd)
 	atoiline = NULL;
 	height = 0;
 	line = get_next_line(fd);
-	int lenline = getlen(ft_split(line, ' '));
+	aa = ft_split(line, ' ');
+	int lenline = getlen(aa);
+	free(aa);
 	while (line)
 	{
 		height++;
@@ -96,6 +78,7 @@ int **get_values(int fd)
 			temp = atoiline;
 		atoiline = ft_lineatoi(atoiline, splitline, height);
 		free (splitline);
+		free(line);
 		line = get_next_line(fd);
 	}
 	for (int i = 0; i < height; i++)
@@ -106,15 +89,12 @@ int **get_values(int fd)
 		}
 		ft_printf("\n");
 	}
-
 	return (atoiline);
 }
 
 int main(int ac, char *av[])
 {
 	int **mat;
-	int height;//move this to another functions
-	height = 0;// """"""""""""
 	if (ac < 2)
 	{
 		ft_printf("Please provide a file.");
