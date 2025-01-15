@@ -3,23 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
+#    By: shimi-be <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/15 14:41:26 by shimi-be         ###   ########.fr        #
+#    Created: 2024/09/11 11:53:14 by shimi-be          #+#    #+#              #
+#    Updated: 2024/10/07 14:27:27 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 	fdf
-LIB = libmlx42.a libs/gnl.a libs/libft.a libs/libftprintf.a -g #-ldl -lglfw -pthread -lm
-#OTHER = -Wall -Werror -Wunreachable-code -Ofast
-INCLUDE = MLX42/MLX42.h
+NAME = libftprintf.a
+INCLUDE = libprintft.h
 RM = rm -f
-CC = cc
-SRC = tests.c
-FLAGS = -Wall -Werror
+LIB = ar rcs
+SRC = ft_printf.c ft_printf_helper.c ft_printf_helper2.c 
+FLAGS = -Wall -Werror -Wextra
+OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
+all : $(NAME)
 
-$(NAME):
-	$(CC) $(FLAGS) $(SRC) $(LIB) #$(OTHER)
+$(NAME): $(OBJ) $(INCLUDE)
+	$(LIB) $(NAME) $(OBJ)
+
+%.o: %.c $(INCLUDE)  Makefile
+	cc $(FLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJ)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY : all clean fclean re bonus

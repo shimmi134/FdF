@@ -41,7 +41,7 @@ char	*mall_buff(void)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash = NULL;
+	char	*stash = NULL;
 	char		*arr;
 	char		*temp;
 
