@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/15 15:01:23 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:02:20 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,18 @@ int **ft_lineatoi(int **matrix, char **line, int height)
 	int **newmatrix;
 	len = getlen(line);
 	newmatrix = (int **)malloc(height*sizeof(int*));
-	for (int j = 0; j < height-1)
+	for (int j = 0; j < height-1; j++)
 	{
 		newmatrix[j] = (int*)malloc(len*sizeof(int));
 		for (int i = 0; i < len; i++)
 		{
 			newmatrix[j][i] = matrix[j][i];
-			ft_printf("matrix val: %i\n", newmatrix[j][i]);
-			free (matrix[j][i]);
 		}
 		free(matrix[j]);
 	}
+	newmatrix[height-1] = (int*)malloc(len*sizeof(int));
+	for (int i = 0; i < len; i++)
+		newmatrix[height-1][i] = ft_atoi(line[i]);
 	free(matrix);
 	return (newmatrix);
 }
@@ -83,8 +84,10 @@ int **get_values(int fd)
 	int height;
 
 	temp = NULL;
+	atoiline = NULL;
 	height = 0;
 	line = get_next_line(fd);
+	int lenline = getlen(ft_split(line, ' '));
 	while (line)
 	{
 		height++;
@@ -93,9 +96,17 @@ int **get_values(int fd)
 			temp = atoiline;
 		atoiline = ft_lineatoi(atoiline, splitline, height);
 		free (splitline);
-		free(temp);
 		line = get_next_line(fd);
 	}
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < lenline; j++)
+		{
+			ft_printf("%i ",atoiline[i][j]);
+		}
+		ft_printf("\n");
+	}
+
 	return (atoiline);
 }
 
