@@ -69,23 +69,15 @@ void drawLine(mlx_image_t* img, int x0, int x1, int y0, int y1)
 	if (abs(y1-y0) < abs(x1-x0))
 	{
 		if (x0 > x1)
-		{
 			drawlineLow(img, x1,x0,y1,y0);
-		}
 		else
-		{
 			drawlineLow(img, x0,x1,y0,y1);
-		}
 	}
 	else{
 		if (y0 > y1)
-		{
 			drawlineHigh(img, x1, x0, y1, y0);
-		}
 		else
-		{
 			drawlineHigh(img, x0, x1, y0, y1);
-		}
 	}
 }
 
@@ -105,9 +97,9 @@ int32_t	main(void)
 		return (EXIT_FAILURE);
 	mlx_image_t* img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
-	drawLine(img, 3850/2,0,0,1880/2);
-	drawLine(img, 1925,3850,0,1880/2);
-	drawLine(img, 0,3850,1880/2,1880/2);
+	drawLine(img, 400,3850/2,1880/2,400);
+	drawLine(img, 1925,3850-400,400,1880/2);
+	drawLine(img, 400,3850-400,1880/2,1880/2);
 	mlx_image_to_window(mlx, img, 0, 0);
 	mlx_key_hook(mlx, &my_keyhook, mlx);
 	mlx_loop(mlx);
