@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/15 16:27:24 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:04:51 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@
 
 int corr_inp(char *input)
 {
-	return (1);
+	char *end;
+
+	end = ft_strrchr(input, '.');
+	if (end && ft_strncmp(end, ".fdf", ft_strlen(end)) == 0)
+		return 1;
+	return 0;
+
+
 }
 
 int getlen(char **line)
@@ -54,40 +61,48 @@ int **ft_lineatoi(int **matrix, char **line, int height)
 	return (newmatrix);
 }
 
-int **get_values(int fd)
+void free_sp(char **line)
+{
+	int i;
+
+	i = 0;
+	while (i < getlen(line))
+	{
+		free(line[i]);
+		i++;
+	}
+	free(line);
+}
+
+void free_mat(int **mat, int height)
+{
+	int i;
+
+	i = 0;
+	while (i < height)
+	{
+		free(mat[i]);
+		i++;
+	}
+	free(mat);
+}
+int **get_values(int fd, int* height)
 {
 	char *line;
 	int **atoiline;
-	int **temp;
-	char **aa;
 	char **splitline;
-	int height;
 
-	temp = NULL;
 	atoiline = NULL;
-	height = 0;
 	line = get_next_line(fd);
-	aa = ft_split(line, ' ');
-	int lenline = getlen(aa);
-	free(aa);
+	*height = 0;
 	while (line)
 	{
-		height++;
+		*height += 1;
 		splitline = ft_split(line, ' ');
-		if (atoiline)
-			temp = atoiline;
-		atoiline = ft_lineatoi(atoiline, splitline, height);
-		free (splitline);
+		atoiline = ft_lineatoi(atoiline, splitline, *height);
+		free_sp(splitline);
 		free(line);
 		line = get_next_line(fd);
-	}
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < lenline; j++)
-		{
-			ft_printf("%i ",atoiline[i][j]);
-		}
-		ft_printf("\n");
 	}
 	return (atoiline);
 }
@@ -95,26 +110,29 @@ int **get_values(int fd)
 int main(int ac, char *av[])
 {
 	int **mat;
+	int height;
 	if (ac < 2)
 	{
-		ft_printf("Please provide a file.");
+		ft_printf("Please provide a file.\n");
 		return (-1);
 	}
 	else if (ac > 2)
 	{
-		ft_printf("Please provide only one file.");
+		ft_printf("Please provide only one file.\n");
 		return (-1);
 	}
 	else 
 	{
-		if (ac == 2)
+		if (corr_inp(av[1]))
 		{
 			int fd = open(av[1],O_RDONLY);
-			mat = get_values(fd);
+			mat = get_values(fd, &height);
+			free_mat(mat, height);
+
 		}
 		else
 		{
-			ft_printf("Provide a .fdf file.");
+			ft_printf("Provide a .fdf file.\n");
 			return (-1);
 		}
 	}
