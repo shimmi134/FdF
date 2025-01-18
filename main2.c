@@ -97,9 +97,9 @@ int32_t	main(void)
 		return (EXIT_FAILURE);
 	mlx_image_t* img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
-	drawLine(img, 400,3850/2,1880/2,400);
+//	drawLine(img, 400,3850/2,1880/2,400);
 	drawLine(img, 1925,3850-400,400,1880/2);
-	drawLine(img, 400,3850-400,1880/2,1880/2);
+//	drawLine(img, 400,3850-400,1880/2,1880/2);
 	mlx_image_to_window(mlx, img, 0, 0);
 	mlx_key_hook(mlx, &my_keyhook, mlx);
 	mlx_loop(mlx);

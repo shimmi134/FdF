@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/17 13:15:38 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:44:56 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void drawlineHigh(mlx_image_t* img,int x0, int x1, int y0, int y1)
 			D = D + 2*dx;
 		y0++;
 	}
-	printf("y0: %i",y0);
+	ft_printf("y0: %i\n",y0);
 }
 
 void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)	
@@ -74,7 +74,7 @@ void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)
 			D = D + 2*dy;
 		x0++;
 	}
-	printf("x0: %i",x0);
+	ft_printf("x0: %i\n",x0);
 }
 
 void drawLine(mlx_image_t* img, int x0, int x1, int y0, int y1)
@@ -98,7 +98,7 @@ int corr_inp(char *input)
 {
 	char *end;
 
-	end = ft_strchr_lift(input, '.');
+	end = ft_strchr_libft(input, '.');
 	if (ft_strlen(end) > 4 || ft_strlen(end) < 4)
 		return (0);
 	if (end && ft_strncmp(end, ".fdf", ft_strlen(end)) == 0)
@@ -163,6 +163,7 @@ void free_mat(int **mat, int height)
 	}
 	free(mat);
 }
+
 int **get_values(int fd, int* height, int *len)
 {
 	char *line;
@@ -185,18 +186,60 @@ int **get_values(int fd, int* height, int *len)
 	return (atoiline);
 }
 
-
-
+void my_keyhook(mlx_key_data_t keydata, void *param)
+{
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
+		mlx_close_window(param);
+		return;
+	}
+}
 void draw(int **m, int height, int length)
 {
 	mlx_t* mlx;
+	int x;
+	int y;
 
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-		return (EXIT_FAILURE);
+	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true); 
 	mlx_image_t* img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
-
-	
+	ft_memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
+	y = (HEIGHT - 100) / height;
+	x = (WIDTH - 100) / length;
+	ft_printf("height: %i\n", height);
+	ft_printf("length: %i\n", length);
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < length; j++)
+		{
+			if (j == length-1 && i != height-1)
+			{
+				drawLine(img, (50+(x*j))/2,(50+(x*(j)))/2,(50+(y*i))/2,(50+(y*(i+1))/2));
+				ft_printf("Got in j == length-1 with: ");
+				ft_printf(" I: %i ",i);
+				ft_printf(" J: %i\n",j);
+			}
+			else if (i == height-1 && j != length-1)
+			{
+				drawLine(img, (50+(x*j))/2,(50+(x*(j+1)))/2,(50+(y*i))/2,(50+(y*(i)))/2);
+				ft_printf("Got in i == height-1 with: ");
+				ft_printf(" I: %i ",i);
+				ft_printf(" J: %i\n",j);
+			}
+			else if (i != height-1 && j != length-1)
+			{
+				drawLine(img, (50+(x*j))/2,(50+(x*(j+1)))/2,(50+(y*i))/2,(50+(y*i))/2);
+				drawLine(img, (50+(x*j))/2,(50+(x*j))/2,(50+(y*i))/2,(50+(y*(i+1)))/2);
+				ft_printf("Got in else with: ");
+				ft_printf(" I: %i ",i);
+				ft_printf(" J: %i\n",j);
+			}
+			ft_printf("\n");
+		}
+	}
+	ft_printf("Gothere.\n");
+	mlx_image_to_window(mlx, img, 0, 0);
+	mlx_key_hook(mlx, &my_keyhook, mlx);
+	mlx_loop(mlx);
 }
 
 int main(int ac, char *av[])
@@ -227,8 +270,6 @@ int main(int ac, char *av[])
 			}
 			mat = get_values(fd, &height, &length);
 			draw(mat, height, length);
-			free_mat(mat, height);
-
 		}
 		else
 		{
