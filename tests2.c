@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/20 12:44:06 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:42:06 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,10 @@ t_point createPoint(int x, int y, int z, int j, int i)
 void offset(double *x0, double *y0, double *x1, double *y1)
 {
 	double ax = *x0, ay = *y0, bx = *x1, by = *y1;
-	*x0 = (1500+ax);
-	*y0 = (600+ay);
-	*x1 = (1500+bx);
-	*y1 = (600+by);		
+	*x0 = (1800+ax);
+	*y0 = (400+ay);
+	*x1 = (1800+bx);
+	*y1 = (400+by);		
 }
 
 void draw(int **m, int height, int length)
@@ -145,37 +145,46 @@ void draw(int **m, int height, int length)
 	mlx_image_t* img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	ft_memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
 	y = (HEIGHT - 400) / height;
-	x = (WIDTH - 400) / length;
+	x = (WIDTH - 800) / length;
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < length; j++)
 		{
-			z = m[i][j]*50;
-			if (j == length-1 && i != height-1)
+			if (i < height-1 && j < length-1)
 			{
+				z = m[i][j]*5;
 				a = createPoint(x,y,z,j,i);
-				b = createPoint(x,y,z,j+1,i);
-				iso(&a.x,&a.y,a.z);
-				iso(&b.x,&b.y,b.z);
-				drawLine(img, a.x,b.x,a.y,b.y);
-			}
-			else if (i == height-1 && j != length-1)
-			{
-				a = createPoint(x,y,z,j,i);
-				b = createPoint(x,y,z,j,i+1);
-				iso(&a.x,&a.y,a.z);
-				iso(&b.x,&b.y,b.z);
-				drawLine(img, a.x,b.x,a.y,b.y);
-			}
-			else if (i != height-1 && j != length-1)
-			{
-				a = createPoint(x,y,z,j,i);
+				z = m[i+1][j]*5;
 				b = createPoint(x,y,z,j,i+1);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
 				drawLine(img, a.x,b.x,a.y,b.y);
+				z = m[i][j]*5;
 				a = createPoint(x,y,z,j,i);
+				z = m[i][j+1]*5;
+				b = createPoint(x,y,z,j+1,i);
+				iso(&a.x,&a.y,a.z);
+				iso(&b.x,&b.y,b.z);
+				offset(&a.x,&a.y,&b.x,&b.y);
+				drawLine(img, a.x,b.x,a.y,b.y);
+			}
+			else if (j == length-1 && i != height-1)
+			{
+				z = m[i][j]*5;
+				a = createPoint(x,y,z,j,i);
+				z = m[i+1][j]*5;
+				b = createPoint(x,y,z,j,i+1);
+				iso(&a.x,&a.y,a.z);
+				iso(&b.x,&b.y,b.z);
+				offset(&a.x,&a.y,&b.x,&b.y);
+				drawLine(img, a.x,b.x,a.y,b.y);
+			}
+			else if (j != length-1 && i == height-1)
+			{
+				z = m[i][j]*5;
+				a = createPoint(x,y,z,j,i);
+				z = m[i][j+1]*5;
 				b = createPoint(x,y,z,j+1,i);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
