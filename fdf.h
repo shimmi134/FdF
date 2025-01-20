@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:36:02 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/20 12:29:42 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:59:08 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_point
 }	t_point;
 
 
-t_point createPoint(int x, int y, int z, int j, int i);
+void createPoint(t_point *point, long int x, long int y, long int z, long int j, long int i);
 void offset(double *x0, double *y0, double *x1, double *y1);
 void draw(int **m, int height, int length);
 void iso(double *x, double *y, double z);

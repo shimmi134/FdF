@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/20 12:24:50 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:37:16 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ int **ft_lineatoi(int **matrix, char **line, int height) //COmprovar que las lin
 			newmatrix[j][i] = matrix[j][i];
 		}
 		free(matrix[j]);
+		if (j == 60)
+		{
+			for (int t = 0; t < len; t++)
+			{
+				ft_printf("str:[%s]\n",line[t]);
+
+			}
+		}
 	}
 	free(matrix);
 	newmatrix[height-1] = (int*)malloc(len*sizeof(int));
@@ -92,6 +100,9 @@ void free_mat(int **mat, int height)
 	free(mat);
 }
 
+
+
+
 int **get_values(int fd, int* height, int *len)
 {
 	char *line;
@@ -104,7 +115,7 @@ int **get_values(int fd, int* height, int *len)
 	while (line)
 	{
 		*height += 1;
-		splitline = ft_split(line, ' ');
+		splitline = ft_split(ft_strtrim(line," \n"), ' ');
 		atoiline = ft_lineatoi(atoiline, splitline, *height);
 		*len = getlen(splitline);
 		free_sp(splitline);
@@ -113,7 +124,21 @@ int **get_values(int fd, int* height, int *len)
 	}
 	return (atoiline);
 }
-
+/*
+void print_mat(int **mat, int height, int length)
+{
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < length; j++)
+		{
+			ft_printf("%i ", mat[i][j]);
+			if (mat[i][j] > 100)
+				ft_printf("i: %i, j: %i",i,j);
+		}
+		ft_printf("\n");
+	}
+}
+*/
 int main(int ac, char *av[])
 {
 	int **mat;
@@ -141,6 +166,7 @@ int main(int ac, char *av[])
 				return (-1);
 			}
 			mat = get_values(fd, &height, &length);
+		//	print_mat(mat,height,length);
 			draw(mat, height, length);
 			free_mat(mat,height);
 		}

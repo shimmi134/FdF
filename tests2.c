@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/20 13:42:06 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:51:33 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)
 		dy = -dy;
 	}
 	int D = 2*dy - dx;
+	//ft_printf("y0: %i\n",y0);
+	//ft_printf("x0: %i\n",x0);
+	//ft_printf("x: %i\n",x1);
 	while (x0 < x1)
 	{
 		mlx_put_pixel(img, x0,y0,150);
@@ -79,6 +82,8 @@ void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)
 
 void drawLine(mlx_image_t* img, int x0, int x1, int y0, int y1)
 {
+	//ft_printf("abs(y1-y0): %i\n",abs(y1-y0));
+	//ft_printf("abs(x1-x0): %i\n",abs(x1-x0));
 	if (abs(y1-y0) < abs(x1-x0))
 	{
 		if (x0 > x1)
@@ -113,57 +118,79 @@ void iso(double *x, double *y, double z)
     *x = (previous_x - previous_y) * cos(0.523599);
     *y = -z + (previous_x + previous_y) * sin(0.523599);
 }
-
-t_point createPoint(int x, int y, int z, int j, int i)
+void print_point(t_point p)
 {
-	t_point point;
-	point.x = (x*(j))/2;
-	point.y = (y*(i))/2;
-	point.z = z;
-	return (point);
+	ft_printf("p.x: %i\n",p.x);
+	ft_printf("p.y: %i\n",p.y);
+	ft_printf("p.z: %i\n",p.z);
+}
+
+void init_point(t_point *p)
+{
+	p->x = 0; 
+	p->y = 0; 
+	p->z = 0; 
+}
+
+void createPoint(t_point *p, long int x, long int y, long int z, long int j, long int i)
+{
+	//ft_printf("i: %i, j: %i\n",i,j);
+	//ft_printf("x*j: %i\n",(x*j)/2);
+	//ft_printf("y*i: %i\n",(y*i)/2);
+	p->x = (x*(j))/3;
+	p->y = (y*(i))/3;
+	p->z = z;
+	//print_point(*p);
 }
 
 void offset(double *x0, double *y0, double *x1, double *y1)
 {
 	double ax = *x0, ay = *y0, bx = *x1, by = *y1;
-	*x0 = (1800+ax);
-	*y0 = (400+ay);
-	*x1 = (1800+bx);
-	*y1 = (400+by);		
+	*x0 = (2000+ax);
+	*y0 = (450+ay);
+	*x1 = (2000+bx);
+	*y1 = (450+by);		
 }
+
 
 void draw(int **m, int height, int length)
 {
 	mlx_t* mlx;
-	int x;
-	int y;
-	int z;
+	long int x;
+	long int y;
+	long int z;
 	t_point a;
 	t_point b;
-
+	
 	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true); 
 	mlx_image_t* img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	ft_memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
-	y = (HEIGHT - 400) / height;
-	x = (WIDTH - 800) / length;
+	y = (HEIGHT - 100) / height;
+	x = (WIDTH - 100) / length;
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < length; j++)
 		{
 			if (i < height-1 && j < length-1)
 			{
+			//	ft_printf("FIrst\n");
 				z = m[i][j]*5;
-				a = createPoint(x,y,z,j,i);
-				z = m[i+1][j]*5;
-				b = createPoint(x,y,z,j,i+1);
+				init_point(&a);
+				createPoint(&a, x,y,z,j,i);
+				z = m[i][j+1]*5;
+				init_point(&b);
+				createPoint(&b, x,y,z,j+1,i);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
 				drawLine(img, a.x,b.x,a.y,b.y);
+
+
+
 				z = m[i][j]*5;
-				a = createPoint(x,y,z,j,i);
-				z = m[i][j+1]*5;
-				b = createPoint(x,y,z,j+1,i);
+				createPoint(&a, x,y,z,j,i);
+				z = m[i+1][j]*5;
+				createPoint(&b, x,y,z,j,i+1);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
@@ -171,10 +198,14 @@ void draw(int **m, int height, int length)
 			}
 			else if (j == length-1 && i != height-1)
 			{
+	//			ft_printf("secon\n");
 				z = m[i][j]*5;
-				a = createPoint(x,y,z,j,i);
+	//			ft_printf("m: %i\nz: %i\n",m[i][j],z);
+				createPoint(&a,x,y,z,j,i);
+	//			ft_printf("x: %i\n y = %i\n z: %i\n",a.x, a.y, a.z);
 				z = m[i+1][j]*5;
-				b = createPoint(x,y,z,j,i+1);
+	//			ft_printf("z: %i\n",z);
+				createPoint(&b, x,y,z,j,i+1);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
@@ -182,10 +213,11 @@ void draw(int **m, int height, int length)
 			}
 			else if (j != length-1 && i == height-1)
 			{
+	//			ft_printf("third");
 				z = m[i][j]*5;
-				a = createPoint(x,y,z,j,i);
+				createPoint(&a, x,y,z,j,i);
 				z = m[i][j+1]*5;
-				b = createPoint(x,y,z,j+1,i);
+				createPoint(&b, x,y,z,j+1,i);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
