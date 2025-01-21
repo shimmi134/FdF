@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.c                                            :+:      :+:    :+:   */
+/*   tests3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/21 11:33:39 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:31:14 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,90 @@ int getlen(char **line)
 	return (i);
 }
 
-int **ft_lineatoi(int **matrix, char **line, int height) //COmprovar que las lineas son iguals
+
+int check_hex(char **line, int j)
+{
+	int i;
+
+	i = 0;
+	while (i < getlen(line))
+	{
+		if (line[j][i] == ',')
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+uint32_t	ft_atoi_uint(const char *nptr)
+{
+	int	i;
+	int	sign;
+	uint32_t	result;
+
+	i = 0;
+	result = 0;
+	sign = 1;
+	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == 32)
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			sign = -sign;
+		i++;
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		result = result * 10 + (nptr[i] - '0');
+		i++;
+	}
+	return (result * sign);
+}
+
+uint32_t **colormatrix(uint32_t ***color, char **line, int height, int len) // finish function so I DONT HAVE TO DO IF HEXPRESENT
+{
+	uint32_t **newcolor;
+	uint32_t **colorit;
+
+	//ft_printf("height: %i\n", height);
+	colorit = *color;
+	newcolor = (uint32_t **)malloc(height*sizeof(uint32_t*));
+	for (int j = 0; j < height-1; j++)
+	{
+		newcolor[j] = (uint32_t *)malloc(len*sizeof(uint32_t));
+		for (int i = 0; i < len; i++)
+			newcolor[j][i] = colorit[j][i];
+		free(colorit[j]);
+	}
+	free(colorit);
+	newcolor[height-1] = (uint32_t *) malloc (len * sizeof(int));
+	for (int i = 0; i < len; i++)
+	{
+		newcolor[height-1][i] = ft_atoi_uint(line[i]+check_hex(line,i)+3);
+		//ft_printf("newco: %i\n",newcolor[height-1][i]);
+	}
+	return (newcolor);
+	
+}
+
+int **ft_lineatoi(int **matrix, uint32_t*** color, char **line, int height) //COmprovar que las lineas son iguals
 {
 	int len;
-	int **newmatrix;
 	int hexPresent;
+	int **newmatrix;
 
+	hexPresent = check_hex(line,0);
 	len = getlen(line);
 	newmatrix = (int **)malloc(height*sizeof(int*));
 	if (!newmatrix)
 		return NULL;
+	if (hexPresent > 0)
+		*color = colormatrix(color, line, height, len);
 	for (int j = 0; j < height-1; j++)
 	{
 		newmatrix[j] = (int*)malloc(len*sizeof(int));
 		for (int i = 0; i < len; i++)
-		{
 			newmatrix[j][i] = matrix[j][i];
-		}
 		free(matrix[j]);
 	}
 	free(matrix);
@@ -70,6 +137,35 @@ int **ft_lineatoi(int **matrix, char **line, int height) //COmprovar que las lin
 		newmatrix[height-1][i] = ft_atoi(line[i]);
 	}
 	return (newmatrix);
+}
+
+int **get_values(int fd, uint32_t*** color, int* height, int *len)
+{
+	char *line;
+	uint32_t **colormat;
+	int **atoiline;
+	char **splitline;
+
+	atoiline = NULL;
+	line = get_next_line(fd);
+	splitline = ft_split(ft_strtrim(line," \n"), ' ');
+	*len = getlen(splitline);
+	colormat = NULL;
+	*height = 0;
+	while (line)
+	{
+		*height += 1;
+		atoiline = ft_lineatoi(atoiline, &colormat, splitline, *height);
+		if (*len != getlen(splitline))
+			return (free_mat(atoiline, *height),free_sp(splitline), free(line), NULL);
+		*len = getlen(splitline);
+		free_sp(splitline);
+		free(line);
+		line = get_next_line(fd);
+		splitline = ft_split(ft_strtrim(line," \n"), ' ');
+	}
+	*color = colormat;
+	return (atoiline);
 }
 
 void free_sp(char **line)
@@ -100,49 +196,28 @@ void free_mat(int **mat, int height)
 
 
 
-
-int **get_values(int fd, int* height, int *len)
-{
-	char *line;
-	int **atoiline;
-	char **splitline;
-
-	atoiline = NULL;
-	line = get_next_line(fd);
-	*height = 0;
-	while (line)
-	{
-		*height += 1;
-		splitline = ft_split(ft_strtrim(line," \n"), ' ');
-		atoiline = ft_lineatoi(atoiline, splitline, *height);
-		*len = getlen(splitline);
-		free_sp(splitline);
-		free(line);
-		line = get_next_line(fd);
-	}
-	return (atoiline);
-}
-/*
-void print_mat(int **mat, int height, int length)
+void print_mat(uint32_t **mat, int height, int length)
 {
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < length; j++)
 		{
 			ft_printf("%i ", mat[i][j]);
-			if (mat[i][j] > 100)
-				ft_printf("i: %i, j: %i",i,j);
 		}
 		ft_printf("\n");
 	}
 }
-*/
+
+
 int main(int ac, char *av[])
 {
 	int **mat;
+	uint32_t **color;
 	int height;
 	int length;
 
+	color = NULL;
+	mat = NULL;
 	if (ac < 2)
 	{
 		ft_printf("Please provide a file.\n");
@@ -163,9 +238,8 @@ int main(int ac, char *av[])
 				ft_printf("Error Opening the file. Check that it exist.\n");
 				return (-1);
 			}
-			mat = get_values(fd, &height, &length);
-		//	print_mat(mat,height,length);
-			draw(mat, height, length);
+			mat = get_values(fd, &color, &height, &length); // &color
+			draw(mat, color, height, length);
 			free_mat(mat,height);
 		}
 		else

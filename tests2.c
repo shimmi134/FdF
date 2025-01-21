@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/21 10:01:36 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:25:57 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int abs(int num)
 	return num;
 }
 
-void drawlineHigh(mlx_image_t* img,int x0, int x1, int y0, int y1)	
+void drawlineHigh(mlx_image_t* img,int x0, int x1, int y0, int y1, uint32_t color0, uint32_t color1)	
 {
 	int dx = x1-x0;
 	int dy = y1-y0;
@@ -38,14 +38,11 @@ void drawlineHigh(mlx_image_t* img,int x0, int x1, int y0, int y1)
 		dx = -dx;
 	}
 	int D = 2*dx - dy;
-/*	ft_printf("High\ny0: %i\n",y0);
-	ft_printf("x0: %i\n",x0);
-	ft_printf("x: %i\n",x1); */
 	while (y0 < y1)
 	{
 		if (y0 < 0)
 			y0 = 0;
-		mlx_put_pixel(img, x0,y0,150);
+		mlx_put_pixel(img, x0,y0,color1);
 		if (D > 0)
 		{
 			x0 = x0+xi;
@@ -57,7 +54,7 @@ void drawlineHigh(mlx_image_t* img,int x0, int x1, int y0, int y1)
 	}
 }
 
-void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)	
+void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1, uint32_t color0, uint32_t color1)	
 {
 	int dx = x1-x0;
 	int dy = y1-y0;
@@ -68,14 +65,11 @@ void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)
 		dy = -dy;
 	}
 	int D = 2*dy - dx;
-	/*ft_printf("Low\ny0: %i\n",y0);
-	ft_printf("x0: %i\n",x0);
-	ft_printf("x: %i\n",x1);*/
 	while (x0 < x1)
 	{
 		if (y0 < 0)
 			y0 = 0;
-		mlx_put_pixel(img, x0,y0,150);
+		mlx_put_pixel(img, x0,y0,color0);
 		if (D > 0)
 		{
 			y0 = y0+yi;
@@ -84,25 +78,24 @@ void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)
 		else
 			D = D + 2*dy;
 		x0++;
+
 	}
 }
 
-void drawLine(mlx_image_t* img, int x0, int x1, int y0, int y1)
+void drawLine(mlx_image_t* img, int x0, int x1, int y0, int y1, uint32_t color0, uint32_t color1)
 {
 	if (abs(y1-y0) < abs(x1-x0))
 	{
-		//ft_printf("Here\n");
 		if (x0 > x1)
-			drawlineLow(img, x1,x0,y1,y0);
+			drawlineLow(img, x1,x0,y1,y0, color1, color1);
 		else
-			drawlineLow(img, x0,x1,y0,y1);
+			drawlineLow(img, x0,x1,y0,y1, color1, color1);
 	}
 	else{
-		//ft_printf("tHere\n");
 		if (y0 > y1)
-			drawlineHigh(img, x1, x0, y1, y0);
+			drawlineHigh(img, x1, x0, y1, y0, color0, color1);
 		else
-			drawlineHigh(img, x0, x1, y0, y1);
+			drawlineHigh(img, x0, x1, y0, y1, color1, color0);
 	}
 }
 
@@ -125,6 +118,7 @@ void iso(double *x, double *y, double z)
     *x = (previous_x - previous_y) * cos(0.523599);
     *y = -z + (previous_x + previous_y) * sin(0.523599);
 }
+
 void print_point(t_point p)
 {
 	ft_printf("p.x: %i\n",p.x);
@@ -132,11 +126,16 @@ void print_point(t_point p)
 	ft_printf("p.z: %i\n",p.z);
 }
 
-void init_point(t_point *p)
+void init_point(t_point *p, uint32_t** color, int i, int j,int z)
 {
 	p->x = 0; 
 	p->y = 0; 
-	p->z = 0; 
+	p->z = 0;
+	if (color)
+		p->color = color[i][j];
+	else
+		p->color = 0x00FFFF*(z);
+
 }
 
 void createPoint(t_point *p, long int x, long int y, long int z, long int j, long int i)
@@ -144,6 +143,8 @@ void createPoint(t_point *p, long int x, long int y, long int z, long int j, lon
 	p->x = (x*(j))/3;
 	p->y = (y*(i))/3;
 	p->z = z;
+	if (z == 0 && p->color == 0x000000)
+		p->color = 0x808080FF;
 }
 
 void offset(double *x0, double *y0, double *x1, double *y1)
@@ -156,7 +157,7 @@ void offset(double *x0, double *y0, double *x1, double *y1)
 }
 
 
-void draw(int **m, int height, int length)
+void draw(int **m, uint32_t **color, int height, int length) // int **color
 {
 	mlx_t* mlx;
 	long int x;
@@ -178,47 +179,53 @@ void draw(int **m, int height, int length)
 			{
 				//ft_printf("FIrst\n");
 				z = m[i][j]*5;
-				init_point(&a);
+				init_point(&a, color, i,j,z);
 				createPoint(&a, x,y,z,j,i);
 				z = m[i][j+1]*5;
-				init_point(&b);
+				init_point(&b, color,i,j+1,z);
 				createPoint(&b, x,y,z,j+1,i);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
-				drawLine(img, a.x,b.x,a.y,b.y);
+				drawLine(img, a.x,b.x,a.y,b.y,a.color,b.color);
 
 
 				z = m[i][j]*5;
+				init_point(&a, color, i,j,z);
 				createPoint(&a, x,y,z,j,i);
 				z = m[i+1][j]*5;
+				init_point(&b, color,i+1,j,z);
 				createPoint(&b, x,y,z,j,i+1);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
-				drawLine(img, a.x,b.x,a.y,b.y);
+				drawLine(img, a.x,b.x,a.y,b.y,a.color,b.color);
 			}
 			else if (j == length-1 && i != height-1)
 			{
 				z = m[i][j]*5;
+				init_point(&a, color, i, j,z);
 				createPoint(&a,x,y,z,j,i);
 				z = m[i+1][j]*5;
+				init_point(&b, color,i+1,j,z);
 				createPoint(&b, x,y,z,j,i+1);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
-				drawLine(img, a.x,b.x,a.y,b.y);
+				drawLine(img, a.x,b.x,a.y,b.y,a.color,b.color);
 			}
 			else if (j != length-1 && i == height-1)
 			{
 				z = m[i][j]*5;
+				init_point(&a, color, i,j,z);
 				createPoint(&a, x,y,z,j,i);
 				z = m[i][j+1]*5;
+				init_point(&b, color,i,j+1,z);
 				createPoint(&b, x,y,z,j+1,i);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
-				drawLine(img, a.x,b.x,a.y,b.y);
+				drawLine(img, a.x,b.x,a.y,b.y,a.color,b.color);
 			}
 		}
 	}

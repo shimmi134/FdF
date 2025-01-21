@@ -6,7 +6,7 @@
 #    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/20 12:23:20 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/01/21 11:45:58 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ OTHER = -Wall -Werror -Wunreachable-code
 INCLUDE = MLX42/MLX42.h
 RM = rm -f
 CC = cc
-SRC = tests.c tests2.c
+SRC = tests3.c tests2.c
 FLAGS = -Wall -Werror
 
 all: $(NAME)
