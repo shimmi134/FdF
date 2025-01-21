@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/20 19:51:33 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:01:36 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,13 @@ void drawlineHigh(mlx_image_t* img,int x0, int x1, int y0, int y1)
 		dx = -dx;
 	}
 	int D = 2*dx - dy;
+/*	ft_printf("High\ny0: %i\n",y0);
+	ft_printf("x0: %i\n",x0);
+	ft_printf("x: %i\n",x1); */
 	while (y0 < y1)
 	{
+		if (y0 < 0)
+			y0 = 0;
 		mlx_put_pixel(img, x0,y0,150);
 		if (D > 0)
 		{
@@ -63,11 +68,13 @@ void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)
 		dy = -dy;
 	}
 	int D = 2*dy - dx;
-	//ft_printf("y0: %i\n",y0);
-	//ft_printf("x0: %i\n",x0);
-	//ft_printf("x: %i\n",x1);
+	/*ft_printf("Low\ny0: %i\n",y0);
+	ft_printf("x0: %i\n",x0);
+	ft_printf("x: %i\n",x1);*/
 	while (x0 < x1)
 	{
+		if (y0 < 0)
+			y0 = 0;
 		mlx_put_pixel(img, x0,y0,150);
 		if (D > 0)
 		{
@@ -82,16 +89,16 @@ void drawlineLow(mlx_image_t* img,int x0, int x1, int y0, int y1)
 
 void drawLine(mlx_image_t* img, int x0, int x1, int y0, int y1)
 {
-	//ft_printf("abs(y1-y0): %i\n",abs(y1-y0));
-	//ft_printf("abs(x1-x0): %i\n",abs(x1-x0));
 	if (abs(y1-y0) < abs(x1-x0))
 	{
+		//ft_printf("Here\n");
 		if (x0 > x1)
 			drawlineLow(img, x1,x0,y1,y0);
 		else
 			drawlineLow(img, x0,x1,y0,y1);
 	}
 	else{
+		//ft_printf("tHere\n");
 		if (y0 > y1)
 			drawlineHigh(img, x1, x0, y1, y0);
 		else
@@ -134,22 +141,18 @@ void init_point(t_point *p)
 
 void createPoint(t_point *p, long int x, long int y, long int z, long int j, long int i)
 {
-	//ft_printf("i: %i, j: %i\n",i,j);
-	//ft_printf("x*j: %i\n",(x*j)/2);
-	//ft_printf("y*i: %i\n",(y*i)/2);
 	p->x = (x*(j))/3;
 	p->y = (y*(i))/3;
 	p->z = z;
-	//print_point(*p);
 }
 
 void offset(double *x0, double *y0, double *x1, double *y1)
 {
 	double ax = *x0, ay = *y0, bx = *x1, by = *y1;
-	*x0 = (2000+ax);
-	*y0 = (450+ay);
-	*x1 = (2000+bx);
-	*y1 = (450+by);		
+	*x0 = (1800+ax);
+	*y0 = (550+ay);
+	*x1 = (1800+bx);
+	*y1 = (550+by);		
 }
 
 
@@ -173,7 +176,7 @@ void draw(int **m, int height, int length)
 		{
 			if (i < height-1 && j < length-1)
 			{
-			//	ft_printf("FIrst\n");
+				//ft_printf("FIrst\n");
 				z = m[i][j]*5;
 				init_point(&a);
 				createPoint(&a, x,y,z,j,i);
@@ -184,7 +187,6 @@ void draw(int **m, int height, int length)
 				iso(&b.x,&b.y,b.z);
 				offset(&a.x,&a.y,&b.x,&b.y);
 				drawLine(img, a.x,b.x,a.y,b.y);
-
 
 
 				z = m[i][j]*5;
@@ -198,13 +200,9 @@ void draw(int **m, int height, int length)
 			}
 			else if (j == length-1 && i != height-1)
 			{
-	//			ft_printf("secon\n");
 				z = m[i][j]*5;
-	//			ft_printf("m: %i\nz: %i\n",m[i][j],z);
 				createPoint(&a,x,y,z,j,i);
-	//			ft_printf("x: %i\n y = %i\n z: %i\n",a.x, a.y, a.z);
 				z = m[i+1][j]*5;
-	//			ft_printf("z: %i\n",z);
 				createPoint(&b, x,y,z,j,i+1);
 				iso(&a.x,&a.y,a.z);
 				iso(&b.x,&b.y,b.z);
@@ -213,7 +211,6 @@ void draw(int **m, int height, int length)
 			}
 			else if (j != length-1 && i == height-1)
 			{
-	//			ft_printf("third");
 				z = m[i][j]*5;
 				createPoint(&a, x,y,z,j,i);
 				z = m[i][j+1]*5;

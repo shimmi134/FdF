@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/20 19:37:16 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:23:12 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,14 @@ int **ft_lineatoi(int **matrix, char **line, int height) //COmprovar que las lin
 			newmatrix[j][i] = matrix[j][i];
 		}
 		free(matrix[j]);
-		if (j == 60)
-		{
-			for (int t = 0; t < len; t++)
-			{
-				ft_printf("str:[%s]\n",line[t]);
-
-			}
-		}
 	}
 	free(matrix);
 	newmatrix[height-1] = (int*)malloc(len*sizeof(int));
 	for (int i = 0; i < len; i++)
+	{
 		newmatrix[height-1][i] = ft_atoi(line[i]);
+		ft_printf("%i",newmatrix[height-1][i]);
+	}
 	return (newmatrix);
 }
 
