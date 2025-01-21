@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/21 17:25:57 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:31:55 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void init_point(t_point *p, uint32_t** color, int i, int j,int z)
 	if (color)
 		p->color = color[i][j];
 	else
-		p->color = 0x00FFFF*(z);
+		p->color = 0x00FF00FF*(z);
 
 }
 
@@ -166,7 +166,7 @@ void draw(int **m, uint32_t **color, int height, int length) // int **color
 	t_point a;
 	t_point b;
 	
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true); 
+	mlx = mlx_init(WIDTH, HEIGHT, "FDF", true); 
 	mlx_image_t* img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	ft_memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
 	y = (HEIGHT - 100) / height;
