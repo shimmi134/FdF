@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/22 16:13:52 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:03:28 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ void init_point(t_point *p, uint32_t** color, int i, int j,int z)
 
 void createPoint(t_point *p, long int x, long int y, long int z, long int j, long int i,uint32_t**color)
 {
-	p->x = (x*(j))/3;
-	p->y = (y*(i))/3;
+	p->x = (x*(j))/2.5;
+	p->y = (y*(i))/2.5;
 	p->z = z;
 	
 	if (!color)
@@ -185,9 +185,9 @@ void offset(double *x0, double *y0, double *x1, double *y1)
 {
 	double ax = *x0, ay = *y0, bx = *x1, by = *y1;
 	*x0 = (1800+ax);
-	*y0 = (550+ay);
+	*y0 = (350+ay);
 	*x1 = (1800+bx);
-	*y1 = (550+by);		
+	*y1 = (350+by);		
 }
 
 
