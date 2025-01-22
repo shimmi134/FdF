@@ -6,20 +6,20 @@
 #    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/22 19:30:31 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/01/22 20:19:35 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 	fdf
-LIB = libmlx42.a libs/gnl.a libs/libft.a libs/libftprintf.a -ldl -lglfw -pthread -lm
-OTHER = -Wall -Werror -Wunreachable-code -Ofast -fsanitize=address
+LIB = libs/libmlx42.a libs/gnl.a libs/libft.a libs/libftprintf.a 
+OTHER = -ldl -lglfw -pthread -lm -Wall -Werror -Wunreachable-code -Ofast -fsanitize=address
 INCLUDE = MLX42/MLX42.h
 RM = rm -f
 CC = cc
-SRC = tests3.c tests2.c
-FLAGS = -Wall -Werror
+SRC = src/input.c src/draw.c
+FLAGS = -Wall -Werror -ldl -lglfw -pthread -lm -Wall -Werror -Wunreachable-code -Ofast -fsanitize=address 
 
 all: $(NAME)
 
-$(NAME):
-	$(CC) $(FLAGS) -g $(SRC) $(LIB) $(OTHER)
+$(NAME): $(SRC) $(INCLUDE) Makefile
+	$(CC) $(FLAGS) -g $(SRC) $(LIB) $(OTHER) -o fdf

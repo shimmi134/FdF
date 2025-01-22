@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests3.c                                           :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/22 19:49:35 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/22 20:18:57 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
-#include "fdf.h"
-#include "srclibs/ft_printf/libprintft.h"
-#include "srclibs/get_next_line/get_next_line.h"
-#include "srclibs/libft/libft.h"
-#include <fcntl.h>
-#include <math.h>
-#include <stdlib.h>
-#define WIDTH 4480
-#define HEIGHT 2520
+#include "../fdf.h"
 
 int	corr_inp(char *input)
 {

@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests2.c                                           :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/22 19:52:09 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/22 20:18:42 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
-#include "fdf.h"
-#include "srclibs/ft_printf/libprintft.h"
-#include "srclibs/get_next_line/get_next_line.h"
-#include "srclibs/libft/libft.h"
-#include <fcntl.h>
-#include <math.h>
-#include <stdlib.h>
-#define WIDTH 4480
-#define HEIGHT 2520
+#include "../fdf.h"
 
 int	abs(int num)
 {
