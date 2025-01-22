@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/21 16:31:14 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:50:29 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int check_hex(char **line, int j)
 	int i;
 
 	i = 0;
-	while (i < getlen(line))
+	while (i < getlen(line) && line[j][i])
 	{
 		if (line[j][i] == ',')
 			return (i);
@@ -89,7 +89,6 @@ uint32_t **colormatrix(uint32_t ***color, char **line, int height, int len) // f
 	uint32_t **newcolor;
 	uint32_t **colorit;
 
-	//ft_printf("height: %i\n", height);
 	colorit = *color;
 	newcolor = (uint32_t **)malloc(height*sizeof(uint32_t*));
 	for (int j = 0; j < height-1; j++)
@@ -102,10 +101,7 @@ uint32_t **colormatrix(uint32_t ***color, char **line, int height, int len) // f
 	free(colorit);
 	newcolor[height-1] = (uint32_t *) malloc (len * sizeof(int));
 	for (int i = 0; i < len; i++)
-	{
 		newcolor[height-1][i] = ft_atoi_uint(line[i]+check_hex(line,i)+3);
-		//ft_printf("newco: %i\n",newcolor[height-1][i]);
-	}
 	return (newcolor);
 	
 }
@@ -133,9 +129,7 @@ int **ft_lineatoi(int **matrix, uint32_t*** color, char **line, int height) //CO
 	free(matrix);
 	newmatrix[height-1] = (int*)malloc(len*sizeof(int));
 	for (int i = 0; i < len; i++)
-	{
 		newmatrix[height-1][i] = ft_atoi(line[i]);
-	}
 	return (newmatrix);
 }
 
@@ -145,10 +139,12 @@ int **get_values(int fd, uint32_t*** color, int* height, int *len)
 	uint32_t **colormat;
 	int **atoiline;
 	char **splitline;
+	char *trimline;
 
 	atoiline = NULL;
 	line = get_next_line(fd);
-	splitline = ft_split(ft_strtrim(line," \n"), ' ');
+	trimline = ft_strtrim(line, " \n");
+	splitline = ft_split(trimline, ' ');
 	*len = getlen(splitline);
 	colormat = NULL;
 	*height = 0;
@@ -161,8 +157,10 @@ int **get_values(int fd, uint32_t*** color, int* height, int *len)
 		*len = getlen(splitline);
 		free_sp(splitline);
 		free(line);
+		free(trimline);
 		line = get_next_line(fd);
-		splitline = ft_split(ft_strtrim(line," \n"), ' ');
+		trimline = ft_strtrim(line, " \n");
+		splitline = ft_split(trimline, ' ');
 	}
 	*color = colormat;
 	return (atoiline);
@@ -196,7 +194,7 @@ void free_mat(int **mat, int height)
 
 
 
-void print_mat(uint32_t **mat, int height, int length)
+void print_mat(int **mat, int height, int length)
 {
 	for (int i = 0; i < height; i++)
 	{
@@ -215,6 +213,7 @@ int main(int ac, char *av[])
 	uint32_t **color;
 	int height;
 	int length;
+	int val;
 
 	color = NULL;
 	mat = NULL;
@@ -238,14 +237,23 @@ int main(int ac, char *av[])
 				ft_printf("Error Opening the file. Check that it exist.\n");
 				return (-1);
 			}
-			mat = get_values(fd, &color, &height, &length); // &color
-			draw(mat, color, height, length);
+			mat = get_values(fd, &color, &height, &length);
+			if (!mat)
+			{
+				ft_printf("Error creating the matrix. Check the map is correct.\n");
+				return (-1);
+			}
+			val = draw(mat, color, height, length);
+			print_mat(mat,height,length);
 			free_mat(mat,height);
-		}
+//			if (color)
+//				free_mat(color,height);
+		}	
 		else
 		{
 			ft_printf("Provide a correct .fdf file.\n");
 			return (-1);
 		}
 	}
+	return(EXIT_SUCCESS);
 }
