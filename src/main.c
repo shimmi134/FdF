@@ -1,53 +1,64 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdio.h>
-#include "MLX42/MLX42.h"
-#define WIDTH 1920
-#define HEIGHT 1080
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/24 12:57:49 by shimi-be          #+#    #+#             */
+/*   Updated: 2025/01/24 12:59:05 by shimi-be         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void draw(mlx_image_t* img, int i, int j, int a)
+#include "../fdf.h"
+
+int	main(int ac, char *av[])
 {
+	t_map	maps;
+	int		height;
+	int		length;
+	int		val;
+	int		fd;
 
-	
-}
-
-
-void my_keyhook(mlx_key_data_t keydata, void *param)
-{
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	maps.colormap = NULL;
+	maps.map = NULL;
+	if (ac < 2)
 	{
-		mlx_close_window(param);
-		return;
+		ft_printf("Please provide a file.\n");
+		return (-1);
 	}
-}
-int32_t	main(void)
-{
-	mlx_t* mlx;
-
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-		return (EXIT_FAILURE);
-	mlx_image_t* img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
-	for (int i = 0; i < WIDTH/2; i++)
+	else if (ac > 2)
 	{
-		for (int j = 0; j < WIDTH/2; j++)
+		ft_printf("Please provide only one file.\n");
+		return (-1);
+	}
+	else
+	{
+		if (corr_inp(av[1]))
 		{
-			if (i == 0 || i == (WIDTH/2)-1)
+			fd = open(av[1], O_RDONLY);
+			if (fd < 0)
 			{
-				for (int k = 0; k < 10; k++)
-					mlx_put_pixel(img, i+k, j, 40);
+				ft_printf("Error Opening the file. Check that it exist.\n");
+				return (-1);
 			}
-			else if (j == 0 || j == (WIDTH/2)-1)
+			maps.map = get_values(fd, &maps.colormap, &height, &length);
+			if (!maps.map)
 			{
-				for (int k = 0; k < 10; k++)
-					mlx_put_pixel(img, i, j+k, 40);
+				ft_printf("Error creating the matrix.");
+				ft_printf("Check the map is correct.\n");
+				return (-1);
 			}
+			val = draw(maps, height, length);
+			free_mat(maps.map, height);
+			if (maps.colormap)
+				free_mat_color(maps.colormap, height);
+		}
+		else
+		{
+			ft_printf("Provide a correct .fdf file.\n");
+			return (-1);
 		}
 	}
-	mlx_image_to_window(mlx, img, 0, 0);
-	mlx_key_hook(mlx, &my_keyhook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }

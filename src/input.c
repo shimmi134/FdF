@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/22 20:18:57 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:12:52 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,6 @@ int	corr_inp(char *input)
 		return (0);
 	if (end && ft_strncmp(end, ".fdf", ft_strlen(end)) == 0)
 		return (1);
-	return (0);
-}
-
-int	getlen(char **line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-		i++;
-	return (i);
-}
-
-int	check_hex(char **line, int j)
-{
-	int	i;
-
-	i = 0;
-	while (i < getlen(line) && line[j][i])
-	{
-		if (line[j][i] == ',')
-			return (i);
-		i++;
-	}
 	return (0);
 }
 
@@ -74,35 +50,48 @@ uint32_t	ft_atoi_uint(const char *nptr)
 }
 
 uint32_t	**colormatrix(uint32_t ***color, char **line, int height, int len)
-		// finish function so I DONT HAVE TO DO IF HEXPRESENT
 {
 	uint32_t	**newcolor;
 	uint32_t	**colorit;
+	int			i;
+	int			j;
 
+	i = 0;
 	colorit = *color;
 	newcolor = (uint32_t **)malloc(height * sizeof(uint32_t *));
-	for (int j = 0; j < height - 1; j++)
+	while (i < height - 1)
 	{
-		newcolor[j] = (uint32_t *)malloc(len * sizeof(uint32_t));
-		for (int i = 0; i < len; i++)
-			newcolor[j][i] = colorit[j][i];
-		free(colorit[j]);
+		j = 0;
+		newcolor[i] = (uint32_t *)malloc(len * sizeof(uint32_t));
+		while (j < len)
+		{
+			newcolor[i][j] = colorit[i][j];
+			j++;
+		}
+		free(colorit[i]);
+		i++;
 	}
 	free(colorit);
 	newcolor[height - 1] = (uint32_t *)malloc(len * sizeof(int));
-	for (int i = 0; i < len; i++)
+	i = 0;
+	while (i < len)
+	{
 		newcolor[height - 1][i] = ft_atoi_uint(line[i] + check_hex(line, i)
 				+ 3);
+		i++;
+	}
 	return (newcolor);
 }
 
 int	**ft_lineatoi(int **matrix, uint32_t ***color, char **line, int height)
-		// COmprovar que las lineas son iguals
 {
 	int	len;
 	int	hexpresent;
 	int	**newmatrix;
+	int	i;
+	int	j;
 
+	i = 0;
 	hexpresent = check_hex(line, 0);
 	len = getlen(line);
 	newmatrix = (int **)malloc(height * sizeof(int *));
@@ -110,17 +99,26 @@ int	**ft_lineatoi(int **matrix, uint32_t ***color, char **line, int height)
 		return (NULL);
 	if (hexpresent > 0)
 		*color = colormatrix(color, line, height, len);
-	for (int j = 0; j < height - 1; j++)
+	while (i < height - 1)
 	{
-		newmatrix[j] = (int *)malloc(len * sizeof(int));
-		for (int i = 0; i < len; i++)
-			newmatrix[j][i] = matrix[j][i];
-		free(matrix[j]);
+		j = 0;
+		newmatrix[i] = (int *)malloc(len * sizeof(int));
+		while (j < len)
+		{
+			newmatrix[i][j] = matrix[i][j];
+			j++;
+		}
+		free(matrix[i]);
+		i++;
 	}
 	free(matrix);
 	newmatrix[height - 1] = (int *)malloc(len * sizeof(int));
-	for (int i = 0; i < len; i++)
+	i = 0;
+	while (i < len)
+	{
 		newmatrix[height - 1][i] = ft_atoi(line[i]);
+		i++;
+	}
 	return (newmatrix);
 }
 
@@ -156,94 +154,4 @@ int	**get_values(int fd, uint32_t ***color, int *height, int *len)
 	}
 	*color = colormat;
 	return (atoiline);
-}
-
-void	free_sp(char **line)
-{
-	int	i;
-
-	i = 0;
-	while (i < getlen(line))
-	{
-		free(line[i]);
-		i++;
-	}
-	free(line);
-}
-
-void	free_mat(int **mat, int height)
-{
-	int	i;
-
-	i = 0;
-	while (i < height)
-	{
-		free(mat[i]);
-		i++;
-	}
-	free(mat);
-}
-
-void	free_mat_color(uint32_t **mat, int height)
-{
-	int	i;
-
-	i = 0;
-	while (i < height)
-	{
-		free(mat[i]);
-		i++;
-	}
-	free(mat);
-}
-int	main(int ac, char *av[])
-{
-	int			**mat;
-	uint32_t	**color;
-	int			height;
-	int			length;
-	int			val;
-	int			fd;
-
-	color = NULL;
-	mat = NULL;
-	if (ac < 2)
-	{
-		ft_printf("Please provide a file.\n");
-		return (-1);
-	}
-	else if (ac > 2)
-	{
-		ft_printf("Please provide only one file.\n");
-		return (-1);
-	}
-	else
-	{
-		if (corr_inp(av[1]))
-		{
-			fd = open(av[1], O_RDONLY);
-			if (fd < 0)
-			{
-				ft_printf("Error Opening the file. Check that it exist.\n");
-				return (-1);
-			}
-			mat = get_values(fd, &color, &height, &length);
-			if (!mat)
-			{
-				ft_printf("Error creating the matrix.");
-				ft_printf("Check the map is correct.\n");
-				return (-1);
-			}
-			val = draw(mat, color, height, length);
-			free_mat(mat, height);
-			if (color)
-				free_mat_color(color, height);
-		}
-		else
-		{
-			ft_printf("Provide a correct .fdf file.\n");
-			return (-1);
-		}
-	}
-	return (EXIT_SUCCESS);
 }

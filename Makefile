@@ -6,18 +6,17 @@
 #    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/22 20:19:35 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/01/24 13:33:53 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 	fdf
 LIB = libs/libmlx42.a libs/gnl.a libs/libft.a libs/libftprintf.a 
-OTHER = -ldl -lglfw -pthread -lm -Wall -Werror -Wunreachable-code -Ofast -fsanitize=address
 INCLUDE = MLX42/MLX42.h
 RM = rm -f
 CC = cc
-SRC = src/input.c src/draw.c
-FLAGS = -Wall -Werror -ldl -lglfw -pthread -lm -Wall -Werror -Wunreachable-code -Ofast -fsanitize=address 
+SRC = src/main.c src/aa.c src/input.c src/draw.c src/drawlines.c src/freeing.c 
+FLAGS = -Wall -Werror -ldl -lglfw -pthread -lm -Wall -Werror -Wunreachable-code #-Ofast -fsanitize=address 
 
 all: $(NAME)
 
