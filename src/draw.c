@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 13:35:22 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/24 17:36:59 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,6 @@ int	draw(t_map maps, int height, int length)
 	int			i;
 	int			j;
 
-	maps.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
-	maps.img = mlx_new_image(maps.mlx, WIDTH, HEIGHT);
-	ft_memset(maps.img->pixels, 255,
-		maps.img->width * maps.img->height * sizeof(int32_t));
 	axis[0] = (WIDTH - 100) / length;
 	axis[1] = (HEIGHT - 100) / height;
 	i = 0;

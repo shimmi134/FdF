@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:57:49 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 12:59:05 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/24 17:34:50 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ int	main(int ac, char *av[])
 				ft_printf("Check the map is correct.\n");
 				return (-1);
 			}
+			maps.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
+			maps.img = mlx_new_image(maps.mlx, WIDTH, HEIGHT);
+			ft_memset(maps.img->pixels, 255, maps.img->width * maps.img->height
+				* sizeof(int32_t));
 			val = draw(maps, height, length);
 			free_mat(maps.map, height);
 			if (maps.colormap)

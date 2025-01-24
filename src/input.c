@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 13:12:52 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/24 17:57:39 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,27 +131,31 @@ int	**get_values(int fd, uint32_t ***color, int *height, int *len)
 	char		*trimline;
 
 	atoiline = NULL;
+	colormat = NULL;
 	line = get_next_line(fd);
 	trimline = ft_strtrim(line, " \n");
 	splitline = ft_split(trimline, ' ');
 	*len = getlen(splitline);
-	colormat = NULL;
 	*height = 0;
 	while (line)
 	{
 		*height += 1;
-		atoiline = ft_lineatoi(atoiline, &colormat, splitline, *height);
 		if (*len != getlen(splitline))
-			return (free_mat(atoiline, *height), free_sp(splitline), free(line),
-				NULL);
+			return (free_all(splitline,line,trimline),NULL);
+		atoiline = ft_lineatoi(atoiline, &colormat, splitline, *height);
 		*len = getlen(splitline);
-		free_sp(splitline);
-		free(line);
-		free(trimline);
+		free_all(splitline,line,trimline);
 		line = get_next_line(fd);
 		trimline = ft_strtrim(line, " \n");
 		splitline = ft_split(trimline, ' ');
 	}
-	*color = colormat;
-	return (atoiline);
+	return (*color = colormat, atoiline);
+}
+
+
+void free_all(char **splitline, char *line, char *trimline)
+{
+	free_sp(splitline);
+	free(line);
+	free(trimline);
 }

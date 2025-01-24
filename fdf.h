@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:36:02 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 13:34:52 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:38:59 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_map
 
 t_point 	createpoint(long int *axis,long int j, long int i, uint32_t** color);
 void 		offset(double *x0, double *y0, double *x1, double *y1);
+void		free_all(char **splitline, char *line, char *trimline);
 void		free_mat(int **mat, int height);
 void		free_sp(char **line);
 void		free_mat_color(uint32_t **mat, int height);

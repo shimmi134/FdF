@@ -6,23 +6,33 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 10:18:06 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 13:39:33 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:33:01 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-
-void iscorr(t_point *p0, t_point *p1)
+void	iscorr(t_point *p0)
 {
-	if (p0.x < 0)
-		p0.x = 0;
-	else if (p0.x >= WIDTH)
-		p0.x = WIDTH - 1;
-	if (p0.y < 0)
-		p0.y = 0;
-	else if (p0.y >= HEIGHT)
-		p0.y = HEIGHT - 1;
+	if (p0->x < 0)
+		p0->x = 0;
+	else if (p0->x >= WIDTH)
+		p0->x = WIDTH - 1;
+	if (p0->y < 0)
+		p0->y = 0;
+	else if (p0->y >= HEIGHT)
+		p0->y = HEIGHT - 1;
+}
+
+void	init_values(int *dx, int *xi, int x0,int x1)
+{
+	*dx = x1 - x0;
+	*xi = 1;
+	if (dx < 0)
+	{
+		*xi = -1;
+		*dx = -*dx;
+	}
 }
 
 void	drawlinehigh(mlx_image_t *img, t_point p0, t_point p1)
@@ -41,18 +51,11 @@ void	drawlinehigh(mlx_image_t *img, t_point p0, t_point p1)
 		xi = -1;
 		dx = -dx;
 	}
-	d = 2 * dx - dy;
+	d = 2 * dy - dx;
 	y = p0.y;
 	while (p0.y < p1.y)
 	{
-		if (p0.y < 0)
-			p0.y = 0;
-		else if (p0.y >= HEIGHT)
-			p0.y = HEIGHT - 1;
-		if (p0.x < 0)
-			p0.x = 0;
-		else if (p0.x >= WIDTH)
-			p0.x = WIDTH - 1;
+		iscorr(&p0);
 		mlx_put_pixel(img, p0.x, p0.y, p0.color);
 		if (d > 0)
 		{
@@ -85,8 +88,15 @@ void	drawlinelow(mlx_image_t *img, t_point p0, t_point p1)
 	}
 	d = 2 * dy - dx;
 	x = p0.x;
+	/*
+	init_values(&dy,&yi,p0.y,p1.y);
+	dx = p1.x - p0.x;
+	d = 2 * dy - dx;
+	x = p0.x;
+	*/
 	while (p0.x < p1.x)
 	{
+		iscorr(&p0);
 		mlx_put_pixel(img, p0.x, p0.y, p0.color);
 		if (d > 0)
 		{
