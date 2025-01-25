@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 18:34:32 by shimi-be          #+#    #+#             */
-/*   Updated: 2024/11/25 19:26:18 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:37:00 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*mall_buff(void)
 
 char	*get_next_line(int fd)
 {
-	char	*stash = NULL;
+	static char	*stash = NULL;
 	char		*arr;
 	char		*temp;
 
