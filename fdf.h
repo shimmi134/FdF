@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:36:02 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 16:32:28 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:58:39 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void			drawlinelow(mlx_image_t *img, t_point a, t_point b);
 int				corr_inp(char *input);
 int				getlen(char **line);
 int				check_hex(char **line, int j);
-int				abs(int num);
 int				**get_values(int fd, uint32_t ***color, int *height, int *len);
 int				draw(t_map maps, int height, int length);
 int				**ft_lineatoi(int **matrix, uint32_t ***color, char **line,
