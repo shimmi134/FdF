@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 16:22:17 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:17:21 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ uint32_t	**colormatrix(uint32_t ***color, char **line, int height, int len)
 
 int	**ft_lineatoi(int **matrix, uint32_t ***color, char **line, int height)
 {
-	int		len;
-	int		hexpresent;
-	int		**newmatrix;
-	int		i;
+	int	len;
+	int	hexpresent;
+	int	**newmatrix;
+	int	i;
 
 	hexpresent = check_hex(line, 0);
 	len = getlen(line);
@@ -75,6 +75,8 @@ int	**ft_lineatoi(int **matrix, uint32_t ***color, char **line, int height)
 		return (NULL);
 	if (hexpresent > 0)
 		*color = colormatrix(color, line, height, len);
+	if (*color == NULL && hexpresent > 0)
+		return (NULL);
 	copy_and_free_matrix(newmatrix, matrix, height, len);
 	newmatrix[height - 1] = (int *)malloc(len * sizeof(int));
 	if (!newmatrix[height - 1])
@@ -92,27 +94,27 @@ int	**get_values(int fd, uint32_t ***color, int *height, int *len)
 {
 	char		*line;
 	uint32_t	**colormat;
-	int			**atoiline;
-	char		**splitline;
-	char		*trimline;
+	int			**atoi;
+	char		**split;
+	char		*trim;
 
-	atoiline = NULL;
+	atoi = NULL;
 	colormat = NULL;
 	line = get_next_line(fd);
-	trimline = ft_strtrim(line, " \n");
-	splitline = ft_split(trimline, ' ');
-	*len = getlen(splitline);
+	trim = ft_strtrim(line, " \n");
+	split = ft_split(trim, ' ');
+	*len = getlen(split);
 	while (line)
 	{
 		*height += 1;
-		if (*len != getlen(splitline))
-			return (free_all(splitline, line, trimline), NULL);
-		atoiline = ft_lineatoi(atoiline, &colormat, splitline, *height);
-		*len = getlen(splitline);
-		free_all(splitline, line, trimline);
+		if (*len != getlen(split))
+			return (freea(split, line, trim), freem(atoi, *height - 1), NULL);
+		atoi = ft_lineatoi(atoi, &colormat, split, *height);
+		*len = getlen(split);
+		freea(split, line, trim);
 		line = get_next_line(fd);
-		trimline = ft_strtrim(line, " \n");
-		splitline = ft_split(trimline, ' ');
+		trim = ft_strtrim(line, " \n");
+		split = ft_split(trim, ' ');
 	}
-	return (*color = colormat, atoiline);
+	return (*color = colormat, atoi);
 }

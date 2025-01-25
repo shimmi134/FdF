@@ -12,7 +12,7 @@
 
 #include "../fdf.h"
 
-void	free_mat(int **mat, int height)
+void	freem(int **mat, int height)
 {
 	int	i;
 
@@ -51,7 +51,7 @@ void	free_sp(char **line)
 	free(line);
 }
 
-void	free_all(char **splitline, char *line, char *trimline)
+void	freea(char **splitline, char *line, char *trimline)
 {
 	free_sp(splitline);
 	free(line);

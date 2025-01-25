@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:36:02 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 16:58:39 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:09:11 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_map
 t_point			createpoint(long int *axis, long int j, long int i,
 					uint32_t **color);
 void			offset(double *x0, double *y0, double *x1, double *y1);
-void			free_all(char **splitline, char *line, char *trimline);
-void			free_mat(int **mat, int height);
+void			freea(char **splitline, char *line, char *trimline);
+void			freem(int **mat, int height);
 void			free_sp(char **line);
 void			free_mat_color(uint32_t **mat, int height);
 void			iso(double *x, double *y, double z);
@@ -60,6 +60,8 @@ void			copy_and_free_color_matrix(uint32_t **newcolor,
 void			copy_and_free_matrix(int **newmatrix, int **matrix, int height,
 					int len);
 void			drawlinelow(mlx_image_t *img, t_point a, t_point b);
+void			init_y(int *dy, int *yi, t_point *p0, t_point *p1);
+void			init_x(int *dx, int *xi, t_point *p0, t_point *p1);
 int				corr_inp(char *input);
 int				getlen(char **line);
 int				check_hex(char **line, int j);
