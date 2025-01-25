@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 17:36:59 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:31:11 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,30 +73,10 @@ void	offset(double *x0, double *y0, double *x1, double *y1)
 int	draw(t_map maps, int height, int length)
 {
 	long int	axis[3];
-	int			i;
-	int			j;
 
 	axis[0] = (WIDTH - 100) / length;
 	axis[1] = (HEIGHT - 100) / height;
-	i = 0;
-	while (i < height)
-	{
-		j = 0;
-		while (j < length)
-		{
-			if (i < height - 1 && j < length - 1)
-			{
-				dootherthing(axis, i, j, maps);
-				dootherotherthing (axis, i, j, maps);
-			}
-			else if (j == length - 1 && i != height - 1)
-				dootherotherthing (axis, i, j, maps);
-			else if (j != length - 1 && i == height - 1)
-				dootherthing(axis, i, j, maps);
-			j++;
-		}
-		i++;
-	}
+	doooooooooooothing(maps, height, length, axis);
 	mlx_image_to_window(maps.mlx, maps.img, 0, 0);
 	mlx_key_hook(maps.mlx, my_keyhook, maps.mlx);
 	mlx_loop(maps.mlx);

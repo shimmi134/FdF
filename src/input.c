@@ -6,23 +6,11 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:37 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 17:57:39 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:22:17 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
-
-int	corr_inp(char *input)
-{
-	char	*end;
-
-	end = ft_strchr_libft(input, '.');
-	if (ft_strlen(end) > 4 || ft_strlen(end) < 4)
-		return (0);
-	if (end && ft_strncmp(end, ".fdf", ft_strlen(end)) == 0)
-		return (1);
-	return (0);
-}
 
 uint32_t	ft_atoi_uint(const char *nptr)
 {
@@ -54,25 +42,15 @@ uint32_t	**colormatrix(uint32_t ***color, char **line, int height, int len)
 	uint32_t	**newcolor;
 	uint32_t	**colorit;
 	int			i;
-	int			j;
 
-	i = 0;
 	colorit = *color;
 	newcolor = (uint32_t **)malloc(height * sizeof(uint32_t *));
-	while (i < height - 1)
-	{
-		j = 0;
-		newcolor[i] = (uint32_t *)malloc(len * sizeof(uint32_t));
-		while (j < len)
-		{
-			newcolor[i][j] = colorit[i][j];
-			j++;
-		}
-		free(colorit[i]);
-		i++;
-	}
-	free(colorit);
+	if (!newcolor)
+		return (NULL);
+	copy_and_free_color_matrix(newcolor, colorit, height, len);
 	newcolor[height - 1] = (uint32_t *)malloc(len * sizeof(int));
+	if (!newcolor[height - 1])
+		return (NULL);
 	i = 0;
 	while (i < len)
 	{
@@ -85,13 +63,11 @@ uint32_t	**colormatrix(uint32_t ***color, char **line, int height, int len)
 
 int	**ft_lineatoi(int **matrix, uint32_t ***color, char **line, int height)
 {
-	int	len;
-	int	hexpresent;
-	int	**newmatrix;
-	int	i;
-	int	j;
+	int		len;
+	int		hexpresent;
+	int		**newmatrix;
+	int		i;
 
-	i = 0;
 	hexpresent = check_hex(line, 0);
 	len = getlen(line);
 	newmatrix = (int **)malloc(height * sizeof(int *));
@@ -99,20 +75,10 @@ int	**ft_lineatoi(int **matrix, uint32_t ***color, char **line, int height)
 		return (NULL);
 	if (hexpresent > 0)
 		*color = colormatrix(color, line, height, len);
-	while (i < height - 1)
-	{
-		j = 0;
-		newmatrix[i] = (int *)malloc(len * sizeof(int));
-		while (j < len)
-		{
-			newmatrix[i][j] = matrix[i][j];
-			j++;
-		}
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
+	copy_and_free_matrix(newmatrix, matrix, height, len);
 	newmatrix[height - 1] = (int *)malloc(len * sizeof(int));
+	if (!newmatrix[height - 1])
+		return (NULL);
 	i = 0;
 	while (i < len)
 	{
@@ -136,26 +102,17 @@ int	**get_values(int fd, uint32_t ***color, int *height, int *len)
 	trimline = ft_strtrim(line, " \n");
 	splitline = ft_split(trimline, ' ');
 	*len = getlen(splitline);
-	*height = 0;
 	while (line)
 	{
 		*height += 1;
 		if (*len != getlen(splitline))
-			return (free_all(splitline,line,trimline),NULL);
+			return (free_all(splitline, line, trimline), NULL);
 		atoiline = ft_lineatoi(atoiline, &colormat, splitline, *height);
 		*len = getlen(splitline);
-		free_all(splitline,line,trimline);
+		free_all(splitline, line, trimline);
 		line = get_next_line(fd);
 		trimline = ft_strtrim(line, " \n");
 		splitline = ft_split(trimline, ' ');
 	}
 	return (*color = colormat, atoiline);
-}
-
-
-void free_all(char **splitline, char *line, char *trimline)
-{
-	free_sp(splitline);
-	free(line);
-	free(trimline);
 }

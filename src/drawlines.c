@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 10:18:06 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/24 16:33:01 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:45:14 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,6 @@ void	iscorr(t_point *p0)
 		p0->y = HEIGHT - 1;
 }
 
-void	init_values(int *dx, int *xi, int x0,int x1)
-{
-	*dx = x1 - x0;
-	*xi = 1;
-	if (dx < 0)
-	{
-		*xi = -1;
-		*dx = -*dx;
-	}
-}
-
 void	drawlinehigh(mlx_image_t *img, t_point p0, t_point p1)
 {
 	int	dx;
@@ -43,14 +32,8 @@ void	drawlinehigh(mlx_image_t *img, t_point p0, t_point p1)
 	int	d;
 	int	y;
 
-	dx = p1.x - p0.x;
 	dy = p1.y - p0.y;
-	xi = 1;
-	if (dx < 0)
-	{
-		xi = -1;
-		dx = -dx;
-	}
+	init_x(&dx, &xi, &p0, &p1);
 	d = 2 * dy - dx;
 	y = p0.y;
 	while (p0.y < p1.y)
@@ -79,21 +62,9 @@ void	drawlinelow(mlx_image_t *img, t_point p0, t_point p1)
 	int	x;
 
 	dx = p1.x - p0.x;
-	dy = p1.y - p0.y;
-	yi = 1;
-	if (dy < 0)
-	{
-		yi = -1;
-		dy = -dy;
-	}
+	init_y(&dy, &yi, &p0, &p1);
 	d = 2 * dy - dx;
 	x = p0.x;
-	/*
-	init_values(&dy,&yi,p0.y,p1.y);
-	dx = p1.x - p0.x;
-	d = 2 * dy - dx;
-	x = p0.x;
-	*/
 	while (p0.x < p1.x)
 	{
 		iscorr(&p0);
