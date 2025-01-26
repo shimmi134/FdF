@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:36:02 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 17:09:11 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/26 13:11:20 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void			freem(int **mat, int height);
 void			free_sp(char **line);
 void			free_mat_color(uint32_t **mat, int height);
 void			iso(double *x, double *y, double z);
-void			dothing(t_point a, t_point b, t_map map);
-void			dootherthing(long int *axis, int i, int j, t_map map);
-void			dootherotherthing(long int *axis, int i, int j, t_map map);
+void			drawpoints(t_point a, t_point b, t_map map);
+void			getpointsi(long int *axis, int i, int j, t_map map);
+void			getpointsj(long int *axis, int i, int j, t_map map);
 void			my_keyhook(mlx_key_data_t keydata, void *param);
 void			drawline(mlx_image_t *img, t_point a, t_point b);
 void			drawlinehigh(mlx_image_t *img, t_point a, t_point b);

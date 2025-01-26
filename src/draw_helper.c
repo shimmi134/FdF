@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:34:25 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 17:09:12 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/26 13:13:34 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	doooooooooooothing(t_map maps, int height, int length, long int *axis)
 		{
 			if (i < height - 1 && j < length - 1)
 			{
-				dootherthing(axis, i, j, maps);
-				dootherotherthing (axis, i, j, maps);
+				getpointsj(axis, i, j, maps);
+				getpointsi(axis, i, j, maps);
 			}
 			else if (j == length - 1 && i != height - 1)
-				dootherotherthing (axis, i, j, maps);
+				getpointsj(axis, i, j, maps);
 			else if (j != length - 1 && i == height - 1)
-				dootherthing(axis, i, j, maps);
+				getpointsi(axis, i, j, maps);
 			j++;
 		}
 		i++;
