@@ -6,7 +6,7 @@
 #    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/26 14:38:52 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/01/26 14:43:13 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ libs:
 
 clean:
 	@printf "Deleting .o\n"
+	@$(RM) $(OBJ)
 	@$(MAKE) -s -C srclibs/get_next_line clean
 	@$(MAKE) -s -C srclibs/libft clean
 	@$(MAKE) -s -C srclibs/ft_printf clean
