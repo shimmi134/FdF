@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 16:31:11 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:26:24 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ t_point	createpoint(long int *axis, long int j, long int i, uint32_t **color)
 	p.color = 0x000000;
 	if (!color)
 	{
-		if (p.z == 0 && p.color == 0x000000)
+		if (p.z < 0)
+			p.color = 0x000000FF;
+		else if (p.z == 0 && p.color == 0x000000)
 			p.color = 0x808080FF;
 		else if (p.z <= 180 && p.color == 0x000000)
 			p.color = 0xFF0000FF;
 		else if (p.z <= 360 && p.color == 0x000000)
 			p.color = 0x00FF00FF;
 		else if (p.z <= 540 && p.color == 0x000000)
-			p.color = 0x0000FFF0;
-		else if (p.z <= 720 && p.color == 0x000000)
 			p.color = 0xA020F0FF;
 		else if (p.color == 0x000000)
 			p.color = 0xD9D9D9FF;
