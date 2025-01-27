@@ -6,7 +6,7 @@
 #    By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 15:49:53 by shimi-be          #+#    #+#              #
-#    Updated: 2025/01/27 15:22:43 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/01/27 18:43:37 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,13 @@ RM = rm -f
 CC = cc
 SRC = src/main.c src/get_and_draw.c src/input.c src/draw.c src/drawlines.c src/freeing.c src/input_helper.c src/draw_helper.c 
 OBJ = $(SRC:.c=.o)
-LDFLAGS = -ldl -lglfw -lm -pthread -Ofast
+LDFLAGS = -g -ldl -lglfw -lm -pthread #-Ofast
 FLAGS = -Wall -Werror -Wall -Werror -Wunreachable-code
 
 all: $(NAME)
 
 $(NAME): libs $(OBJ) Makefile
-	@$(CC) $(OBJ) $(LIB) $(LDFLAGS) -o $(NAME)
+	@$(CC) -g $(OBJ) $(LIB) $(LDFLAGS) -o $(NAME)
 	@echo "Created your executable!"
 
 libs: $(MLX)
@@ -36,13 +36,8 @@ libs: $(MLX)
 	@mv srclibs/ft_printf/libftprintf.a libs/
 	@mv MLX42/build/libmlx42.a libs/
 
-$(MLX):
-	@if [ ! -d "MLX42/build" ]; then \
-        cmake MLX42 -B MLX42/build > /dev/null 2>&1 && \
-    fi
-
 %.o: %.c $(INCLUDE)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) -g $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "Deleting .o"

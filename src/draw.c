@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/26 15:26:24 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:19:49 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	draw(t_map maps, int height, int length)
 
 	axis[0] = (WIDTH - 100) / length;
 	axis[1] = (HEIGHT - 100) / height;
-	doooooooooooothing(maps, height, length, axis);
+	getpoints(&maps, height, length, axis);
 	mlx_image_to_window(maps.mlx, maps.img, 0, 0);
 	mlx_key_hook(maps.mlx, my_keyhook, maps.mlx);
 	mlx_loop(maps.mlx);

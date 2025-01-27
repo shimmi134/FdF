@@ -6,7 +6,7 @@
 #    By: shimi-be <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/11 11:53:14 by shimi-be          #+#    #+#              #
-#    Updated: 2024/09/25 15:13:31 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/01/26 14:31:41 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,19 +32,19 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 all : $(NAME)
 
 $(NAME): $(OBJ) $(INCLUDE)
-	$(LIB) $(NAME) $(OBJ)
+	@$(LIB) $(NAME) $(OBJ)
 
 bonus : $(OBJ) $(OBJ_BONUS) $(INCLUDE)
-	$(LIB) $(NAME) $(OBJ) $(OBJ_BONUS)
+	@$(LIB) $(NAME) $(OBJ) $(OBJ_BONUS)
 
 %.o: %.c $(INCLUDE) Makefile
 	cc $(FLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ) $(OBJ_BONUS)
+	@rm -rf $(OBJ) $(OBJ_BONUS)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

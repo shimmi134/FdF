@@ -6,13 +6,13 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:36:02 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/26 13:11:20 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:39:23 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# include "MLX42/MLX42.h"
+# include "MLX42/include/MLX42/MLX42.h"
 # include "srclibs/ft_printf/libprintft.h"
 # include "srclibs/get_next_line/get_next_line.h"
 # include "srclibs/libft/libft.h"
@@ -35,9 +35,14 @@ typedef struct s_map
 	int			**map;
 	uint32_t	**colormap;
 	mlx_t		*mlx;
+	t_point		**point_map;
 	mlx_image_t	*img;
 
 }				t_map;
+
+void	print_point_mat(t_point **map, int length, int height); //DELETEEEEEE
+																////DEGEGEGEGEGEE
+
 
 t_point			createpoint(long int *axis, long int j, long int i,
 					uint32_t **color);
@@ -53,8 +58,7 @@ void			getpointsj(long int *axis, int i, int j, t_map map);
 void			my_keyhook(mlx_key_data_t keydata, void *param);
 void			drawline(mlx_image_t *img, t_point a, t_point b);
 void			drawlinehigh(mlx_image_t *img, t_point a, t_point b);
-void			doooooooooooothing(t_map maps, int height, int length,
-					long int *axis);
+void			getpoints(t_map *maps, int height, int length, long int *axis);
 void			copy_and_free_color_matrix(uint32_t **newcolor,
 					uint32_t **colorit, int height, int len);
 void			copy_and_free_matrix(int **newmatrix, int **matrix, int height,
