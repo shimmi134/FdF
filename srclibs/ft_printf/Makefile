@@ -6,7 +6,7 @@
 #    By: shimi-be <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/11 11:53:14 by shimi-be          #+#    #+#              #
-#    Updated: 2024/10/07 14:27:27 by shimi-be         ###   ########.fr        #
+#    Updated: 2025/02/05 16:53:46 by shimi-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJ = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME): $(OBJ) $(INCLUDE)
-	$(LIB) $(NAME) $(OBJ)
+	@$(LIB) $(NAME) $(OBJ)
 
 %.o: %.c $(INCLUDE)  Makefile
 	cc $(FLAGS) -c $< -o $@
