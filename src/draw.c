@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:22:23 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/27 18:19:49 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:57:15 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	}
 }
 
-void	iso(double *x, double *y, double z)
+void	iso(int *x, int *y, int z)
 {
-	double	previous_x;
-	double	previous_y;
+	int	previous_x;
+	int	previous_y;
 
 	previous_x = *x;
 	previous_y = *y;
-	*x = (previous_x - previous_y) * cos(0.523599);
-	*y = -z + (previous_x + previous_y) * sin(0.523599);
+	*x = (previous_x - previous_y) * cos(0.785398);
+	*y = -z + (previous_x + previous_y) * sin(0.615472907);
 }
 
 t_point	createpoint(long int *axis, long int j, long int i, uint32_t **color)
@@ -62,12 +62,12 @@ t_point	createpoint(long int *axis, long int j, long int i, uint32_t **color)
 	return (p);
 }
 
-void	offset(double *x0, double *y0, double *x1, double *y1)
+void	offset(int *x0, int *y0, int *x1, int *y1)
 {
 	*x0 = (1800 + *x0);
-	*y0 = (380 + *y0);
+	*y0 = (180 + *y0);
 	*x1 = (1800 + *x1);
-	*y1 = (380 + *y1);
+	*y1 = (180 + *y1);
 }
 
 int	draw(t_map maps, int height, int length)
@@ -76,7 +76,7 @@ int	draw(t_map maps, int height, int length)
 
 	axis[0] = (WIDTH - 100) / length;
 	axis[1] = (HEIGHT - 100) / height;
-	getpoints(&maps, height, length, axis);
+	getpoints(maps, height, length, axis);
 	mlx_image_to_window(maps.mlx, maps.img, 0, 0);
 	mlx_key_hook(maps.mlx, my_keyhook, maps.mlx);
 	mlx_loop(maps.mlx);

@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:57:49 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/27 18:45:43 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:24:41 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	read_and_draw(t_map maps, char *input)
 	maps.map = get_values(fd, &maps.colormap, &height, &length);
 	if (!maps.map)
 	{
-		ft_printf("Error creating. Check the map is correct.\n");
+		ft_printf("Error creating. Check if the map is correct.\n");
 		return (-1);
 	}
-	//maps.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
-	//maps.img = mlx_new_image(maps.mlx, WIDTH, HEIGHT);
-	//ft_memset(maps.img->pixels, 255, maps.img->width * maps.img->height
-//		* sizeof(int32_t));
+	maps.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
+	maps.img = mlx_new_image(maps.mlx, WIDTH, HEIGHT);
+	ft_memset(maps.img->pixels, 255, maps.img->width * maps.img->height
+		* sizeof(int32_t));
 	val = draw(maps, height, length);
 	freem(maps.map, height);
 	if (maps.colormap)

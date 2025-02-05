@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 10:18:06 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 16:45:14 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:25:03 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	drawlinelow(mlx_image_t *img, t_point p0, t_point p1)
 
 void	drawline(mlx_image_t *img, t_point p0, t_point p1)
 {
-	if (fabs(p1.y - p0.y) < fabs(p1.x - p0.x))
+	if (abs(p1.y - p0.y) < abs(p1.x - p0.x))
 	{
 		if (p0.x > p1.x)
 			drawlinelow(img, p1, p0);

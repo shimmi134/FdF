@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:05:07 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/25 16:23:51 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:20:51 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	corr_inp(char *input)
 {
 	char	*end;
 
-	end = ft_strchr_libft(input, '.');
+	end = ft_strrchr(input, '.');
 	if (ft_strlen(end) > 4 || ft_strlen(end) < 4)
 		return (0);
 	if (end && ft_strncmp(end, ".fdf", ft_strlen(end)) == 0)

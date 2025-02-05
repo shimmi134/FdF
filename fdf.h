@@ -6,7 +6,7 @@
 /*   By: shimi-be <shimi-be@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:36:02 by shimi-be          #+#    #+#             */
-/*   Updated: 2025/01/27 18:39:23 by shimi-be         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:56:09 by shimi-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 
 typedef struct s_point
 {
-	double		x;
-	double		y;
-	double		z;
+	int			x;
+	int			y;
+	int			z;
 	uint32_t	color;
 }				t_point;
 
@@ -35,30 +35,25 @@ typedef struct s_map
 	int			**map;
 	uint32_t	**colormap;
 	mlx_t		*mlx;
-	t_point		**point_map;
 	mlx_image_t	*img;
 
 }				t_map;
 
-void	print_point_mat(t_point **map, int length, int height); //DELETEEEEEE
-																////DEGEGEGEGEGEE
-
-
 t_point			createpoint(long int *axis, long int j, long int i,
 					uint32_t **color);
-void			offset(double *x0, double *y0, double *x1, double *y1);
+void			offset(int *x0, int *y0, int *x1, int *y1);
 void			freea(char **splitline, char *line, char *trimline);
 void			freem(int **mat, int height);
 void			free_sp(char **line);
 void			free_mat_color(uint32_t **mat, int height);
-void			iso(double *x, double *y, double z);
+void			iso(int *x, int *y, int z);
 void			drawpoints(t_point a, t_point b, t_map map);
 void			getpointsi(long int *axis, int i, int j, t_map map);
 void			getpointsj(long int *axis, int i, int j, t_map map);
 void			my_keyhook(mlx_key_data_t keydata, void *param);
 void			drawline(mlx_image_t *img, t_point a, t_point b);
 void			drawlinehigh(mlx_image_t *img, t_point a, t_point b);
-void			getpoints(t_map *maps, int height, int length, long int *axis);
+void			getpoints(t_map maps, int height, int length, long int *axis);
 void			copy_and_free_color_matrix(uint32_t **newcolor,
 					uint32_t **colorit, int height, int len);
 void			copy_and_free_matrix(int **newmatrix, int **matrix, int height,
