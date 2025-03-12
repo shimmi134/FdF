@@ -19,8 +19,8 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdlib.h>
-# define WIDTH 4480
-# define HEIGHT 2520
+# define WIDTH 1920
+# define HEIGHT 1080
 
 typedef struct s_point
 {

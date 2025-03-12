@@ -64,9 +64,9 @@ t_point	createpoint(long int *axis, long int j, long int i, uint32_t **color)
 
 void	offset(int *x0, int *y0, int *x1, int *y1)
 {
-	*x0 = (1800 + *x0);
+	*x0 = (800 + *x0);
 	*y0 = (180 + *y0);
-	*x1 = (1800 + *x1);
+	*x1 = (800 + *x1);
 	*y1 = (180 + *y1);
 }
 

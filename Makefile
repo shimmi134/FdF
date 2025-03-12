@@ -31,20 +31,28 @@ $(NAME): $(OBJ) Makefile | $(LIBS)
 %.o: %.c $(INCLUDE) 
 	$(CC) -g $(FLAGS) -c $< -o $@
 
-$(LIBS): | $(BUILD) 
-	@$(MAKE) -C srclibs/get_next_line
-	@$(MAKE) -C srclibs/libft
-	@$(MAKE) -C srclibs/ft_printf
+libs/libmlx42.a: | $(BUILD) 
 	@$(MAKE) -C MLX42/build/
-	@mv srclibs/get_next_line/gnl.a libs/
-	@mv srclibs/libft/libft.a libs/
-	@mv srclibs/ft_printf/libftprintf.a libs/
 	@mv MLX42/build/libmlx42.a libs/
+
+libs/gnl.a: srclibs/get_next_line
+	@$(MAKE) -C srclibs/get_next_line
+	@mv srclibs/get_next_line/gnl.a libs/
+
+libs/libftprintf.a: srclibs/ft_printf
+	@$(MAKE) -C srclibs/ft_printf
+	@mv srclibs/ft_printf/libftprintf.a libs/
+
+libs/libft.a: srclibs/libft
+	@$(MAKE) -C srclibs/libft
+	@mv srclibs/libft/libft.a libs/
+
+
+
 
 $(BUILD):
 	@if [ ! -d "$(MLX_DIR)/build" ]; then \
-        	cmake $(MLX_DIR) -B $(MLX_DIR)/build > /dev/null 2>&1 && \
-        	make -C $(MLX_DIR)/build -j4 > /dev/null 2>&1; \
+        	cmake $(MLX_DIR) -B $(MLX_DIR)/build > /dev/null 2>&1; \
 	fi	
 
 clean:
